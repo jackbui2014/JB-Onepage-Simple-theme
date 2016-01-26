@@ -1,0 +1,28 @@
+/*
+Theme Name: JB Multipurpose theme
+Theme URI: http://www.jbprovider.com/themes/jb_theme
+Author: JB Provider team
+Author URI: http://www.jbprovider.com
+Description: Multipurpose theme
+Version: 1.0
+Tags: fluid-layout, responsive-layout, accessibility-ready, translation-ready, Front-end edit
+License: GNU General Public License v3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+@CHARSET "ISO-8859-1";
+#sui_upload_image_form #sui_image_caption{
+  width:500px;
+}
+#user_images{
+  font-size:12px;
+}
+#user_images th{
+  text-align:left;
+}
+#user_images td{
+  vertical-align:middle;
+}
+#user_images td input{
+  margin: 0px;
+}

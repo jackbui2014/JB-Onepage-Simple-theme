@@ -1,0 +1,177 @@
+/*================================== 
+ *Sidebar Navigation
+ *==================================
+/* Menu
+
+.navbar-nav
+  width: 100%
+
+.navbar >
+  .container .navbar-brand, .container-fluid .navbar-brand
+    margin: 25px 0px 0
+    padding: 0
+    height: auto
+
+.nav > li > a
+  &:hover, &:focus
+    background: none
+
+.navbar-nav > li.active.home > a
+  background: none
+
+.navbar li
+  padding: 20px 0px
+
+.navbar-nav > li > a
+  font-size: 13px
+  letter-spacing: 0.1em
+  padding: 10px 5px
+  text-transform: uppercase
+  font-weight: bold
+  color: #6b818c
+
+/*Overlay Navigation
+
+/*Default Nav
+
+.top-nav-collapse
+  li
+    padding: 10px 0px
+  .navbar-nav > li.active
+    &.home
+      > a
+        background: rgba(0, 0, 0, 0)
+      > a:hover
+        background: none !important
+    font-weight: 600
+    > a
+      background: none !important
+      color: #fff
+  .overlay-header-logo
+    display: none
+
+.default-nav .overlay-header-logo
+  display: none
+
+.top-nav-collapse .normal-header-logo, .default-nav .normal-header-logo
+  display: block
+
+.normal-header-logo
+  display: none
+
+.navbar-toggle .icon-bar
+  background: #000
+  margin: 0 0 7px
+
+.top-nav-collapse .navbar-toggle .icon-bar
+  background: #000
+
+.navbar-toggle
+  margin: 7px 10px 0
+  width: 35px
+  height: 40px
+  border: 2px solid #fff
+  padding: 5px 0
+  cursor: pointer
+  span
+    width: 24px
+    height: 2px
+    background-color: #000
+    display: block
+    margin: 5px auto
+    border-radius: 40px
+  &.active span
+    position: absolute
+    left: 0
+    right: 0
+    top: 15px
+    background-color: #000
+    &:first-child
+      -webkit-transform: rotate(45deg)
+      -moz-transform: rotate(45deg)
+      -ms-transform: rotate(45deg)
+      -o-transform: rotate(45deg)
+      transform: rotate(45deg)
+    &:last-child
+      -webkit-transform: rotate(-45deg)
+      -moz-transform: rotate(-45deg)
+      -ms-transform: rotate(-45deg)
+      -o-transform: rotate(-45deg)
+      transform: rotate(-45deg)
+    &:nth-child(2)
+      display: none
+
+.top-nav-collapse >
+  .container .navbar-brand, .container-fluid .navbar-brand
+    margin: 18px 0px 0
+
+@media (min-width: 991px)
+  .navbar-nav > li
+    padding: 10px
+  .top-nav-collapse .navbar-nav > li
+    padding: 22px 20px !important
+
+@media (max-width: 991px)
+  .navbar-toggle .icon-bar:last-child
+    margin-bottom: 0
+  .overlay-header-logo
+    display: none
+  .top-nav-collapse .normal-header-logo, .normal-header-logo
+    display: block
+  .navbar-brand > img
+    width: 80%
+  .navbar >
+    .container .navbar-brand, .container-fluid .navbar-brand
+      margin: 10px
+  .navbar-nav > li
+    &:first-child a
+      border-top: 1px solid
+    &:last-child a
+      border: none
+    > a
+      line-height: 35px
+      padding-left: 5px
+  .navbar-custom .navbar-nav > li > a
+    line-height: 35px
+    padding-left: 5px
+  .navbar-nav > li > a
+    padding: 10px 0
+  #navigation-menu
+    position: relative
+    overflow: hidden
+    z-index: 100
+    margin: 0
+  .navbar-collapse
+    margin: 0
+    padding: 0
+  .nav > li
+    border: none !important
+  .navbar-header
+    float: none
+  .navbar-toggle
+    display: block
+  .navbar-collapse.collapse
+    display: none !important
+  .navbar-nav
+    float: none !important
+    margin: 0
+    > li
+      float: none
+      border: none
+  .navbar-collapse.collapse.in
+    display: block !important
+  .collapsing
+    overflow: hidden !important
+  .navbar
+    padding: 0
+    li
+      padding: 0
+  .navbar-nav > li > a, .navbar-custom .navbar-nav > li > a
+    line-height: 25px
+  .navbar-right
+    float: none !important
+
+@media (max-height: 360px)
+  #navigation-menu
+    height: 250px
+    overflow-y: auto
