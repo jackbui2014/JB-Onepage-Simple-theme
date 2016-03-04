@@ -25,18 +25,19 @@
         </div>
       </div>
       <div class="col-md-6">
-        <form role="form">
-          <div class="form-group">
-            <input type="text" placeholder="NAME" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <input type="text" placeholder="EMAIL" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <textarea id="message" rows="5" placeholder="MESSAGE..." class="form-control"></textarea>
-          </div>
-          <button type="submit" class="btn btn-default pull-right"><i class="fa fa-paper-plane">SEND MESSAGE</i></button>
-        </form>
+<!--        <form role="form">-->
+<!--          <div class="form-group">-->
+<!--            <input type="text" placeholder="NAME" class="form-control"/>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <input type="text" placeholder="EMAIL" class="form-control"/>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <textarea id="message" rows="5" placeholder="MESSAGE..." class="form-control"></textarea>-->
+<!--          </div>-->
+<!--          <button type="submit" class="btn btn-default pull-right"><i class="fa fa-paper-plane">SEND MESSAGE</i></button>-->
+<!--        </form>-->
+        <?php echo do_shortcode('[contact-form-7 id="55" title="Contact form 1"]'); ?>
       </div>
     </div>
   </div>
