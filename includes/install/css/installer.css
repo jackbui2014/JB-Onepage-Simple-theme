@@ -1,0 +1,75 @@
+#adminmenuwrap, #adminmenuback, #wpadminbar, #wpfooter{
+    display: none;
+}
+#wpcontent, #wpbody-content{
+    padding: 0;
+    margin: 0;
+}
+html.wp-toolbar{
+    padding-top:0;
+}s
+.loadingPage{
+   display: block !important;
+}
+.loadingContent{
+    margin-top:19% !important;
+    width: 596px  !important;
+}
+.loadingContent h3 {
+    width: 46% !important;
+}
+.install-progress-bar{
+    position: relative;
+    overflow: hidden;
+    height: 60px;
+    width: 310px;
+    display: block;
+    left: 0;
+    z-index: 2;
+    border-left: 1px solid #d6ccae;
+    cursor: pointer;
+}
+.loadingContent > span {
+    width: 51% !important;
+    padding-left: 16px !important;
+}
+.arrow3{
+    right: 100%;
+}
+.loadingContent > span > span{
+    width: 100% !important;
+    text-align: left;
+    padding-left: 26px;
+}
+.installer_page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    padding: 0;
+    margin: 0;
+}
+@keyframes animatedBackground {
+    0% { background-position: 0 -53px; }
+    50% { background-position: 102% -53px; }
+    100% { background-position: 0 -53px; }
+}
+@keyframes animatedBackground_revert {
+    0% { background-position: 102% -53px; }
+    50% { background-position: 0 -53px; }
+    100% { background-position: 102% -53px; }
+}
+.all_bg{
+    animation: animatedBackground_revert 10s linear infinite;
+}
+.bg_loading.all_bg {
+    animation: animatedBackground 20s linear infinite;
+}
+.ourstory-title{
+    line-height: 1.2;
+}
+.error, .success{
+    display: none;
+}
