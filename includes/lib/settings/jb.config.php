@@ -102,6 +102,13 @@ if ( !class_exists( "JB_Theme_Options" ) ) {
 							'id' => 'business_email',
 							'type' => 'text',
 							'default' => 'abc@example.com',
+						),
+						array(
+							'title' => __('Contact form', JB_DOMAIN),
+							'subtitle' => __('<em>Type your contact form here.</em>', JB_DOMAIN),
+							'id' => 'contact_form',
+							'type' => 'text',
+							'default' => '[contact-form-7 id="59" title="Contact form 1"]',
 						)
 					)
 				),
