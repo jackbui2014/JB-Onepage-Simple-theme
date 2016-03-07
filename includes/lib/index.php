@@ -4,6 +4,7 @@ require_once TEMPLATEPATH . '/includes/lib/classloader.php';
 require_once TEMPLATEPATH . '/includes/lib/class-base.php';
 require_once TEMPLATEPATH . '/includes/lib/settings/index.php';
 require_once TEMPLATEPATH . '/includes/lib/functions.php';
+require_once TEMPLATEPATH . '/includes/lib/template.php';
 require_once TEMPLATEPATH . '/includes/lib/uploader/index.php';
 require_once TEMPLATEPATH . '/includes/lib/customizer/index.php';
 /**
