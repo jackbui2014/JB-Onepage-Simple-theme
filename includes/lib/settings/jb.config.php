@@ -69,34 +69,12 @@ if ( !class_exists( "JB_Theme_Options" ) ) {
 							'id' => 'site_logo',
 							'type' => 'media',
 						),
-						
 						array(
-							'title' => __('Use text instead of logo ?', JB_DOMAIN),
-							'id' => 'use_text_logo',
-							'type' => 'checkbox',
-							'default' => '0',
-						),
-						
-						array(
-							'title' => __('Logo Text', JB_DOMAIN),
-							'subtitle' => __('<em>Will be displayed only if use text logo is checked.</em>', JB_DOMAIN),
-							'id' => 'logo_text',
+							'title' => __('Copyright', JB_DOMAIN),
+							'subtitle' => __('<em>Type your phone number here.</em>', JB_DOMAIN),
+							'id' => 'copyright',
 							'type' => 'text',
-							'default' => 'Media Center',
-							'required' => array(
-								0 => 'use_text_logo',
-								1 => '=',
-								2 => 1,
-							),
-						),
-
-						array(
-							'title' => __('Scroll to Top', JB_DOMAIN),
-							'id' => 'scroll_to_top',
-							'on' => __('Enabled', JB_DOMAIN),
-							'off' => __('Disabled', JB_DOMAIN),
-							'type' => 'switch',
-							'default' => 1,
+							'default' => __('JB OnePage Simple them', JB_DOMAIN)
 						),
 					),
 				),
@@ -149,6 +127,12 @@ if ( !class_exists( "JB_Theme_Options" ) ) {
 							'title' => __('Google+', JB_DOMAIN),
 							'subtitle' => __('<em>Type your Google+ profile URL here.</em>', JB_DOMAIN),
 							'id' => 'googleplus_link',
+							'type' => 'text',
+						),
+						array(
+							'title' => __('Dribble', JB_DOMAIN),
+							'subtitle' => __('<em>Type your Google+ profile URL here.</em>', JB_DOMAIN),
+							'id' => 'dribble_link',
 							'type' => 'text',
 						),
 						array(
