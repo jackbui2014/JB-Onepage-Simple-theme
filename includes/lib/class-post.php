@@ -81,7 +81,8 @@ class JB_Posts extends JB_Base {
             'post_type',
             'comment_count',
             'guid',
-            'tax_input'
+            'tax_input',
+            'author_name'
         );
         
         $this->localize = $localize;
@@ -562,6 +563,7 @@ class JB_Posts extends JB_Base {
             $result['featured_image'] = '';
         }
         $result['the_post_thumbnail'] = $result['the_post_thumnail'];
+        $result['author_name'] = get_the_author_meta('display_name', $result->post_author);
         /**
          * assign convert post to current post
          */        

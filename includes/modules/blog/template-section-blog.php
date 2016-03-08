@@ -20,7 +20,9 @@ if( have_posts() ): ?>
         $blog = $blog_obj->convert($post); ?>
         <div class="item col-md-6">
           <div class="img"><img src="<?php echo $blog->the_post_thumbnail; ?>" alt=""/></div>
-          <h2><a href=""><?php echo $post->post_title; ?></a></h2><i class="fa fa-calendar"><?php echo $blog->post_date; ?></i><i class="fa fa-comments-o">200		</i><i class="fa fa-eye">3000	</i>
+          <h2><a href=""><?php echo $post->post_title; ?></a></h2>
+            <i class="fa fa-calendar"><?php echo $blog->post_date; ?></i>
+            <i class="fa fa-comments-o">200		</i><i class="fa fa-eye">3000	</i>
           <p><?php echo $post->post_excerpt; ?><a href="#">read more</a></p>
         </div>
       <?php endwhile; ?>

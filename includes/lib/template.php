@@ -48,3 +48,91 @@ if( !function_exists('jb_Logo') ){
 
     }
 }
+if(!function_exists('JBFilterCategories')) {
+   /**
+    * Description
+    *
+    * @param void
+    * @return void
+    * @since 1.0
+    * @package JBTHEME
+    * @category void
+    * @author JACK BUI
+    */
+    function JBFilterCategories($taxonomy = 'category', $args = array(), $current = "", $custom_filter = true) {
+        $terms = get_terms($taxonomy, $args);
+        $search_item = get_query_var('s');
+        ?>
+        <div class="dropdown">
+            <button class="button-dropdown-menu" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+                <span class="caret"></span>
+            </button>
+            <ul id="accordion" class="accordion <?php echo ($custom_filter) ? 'custom-filter-query' : ''?> dropdown-menu" aria-labelledby="dLabel">
+                <?php
+                if(is_search()) {
+                    // render link all
+                    ?>
+                    <li>
+                        <div class="link">
+                            <a href="<?php echo get_site_url() . "?s=$search_item&$taxonomy=0"; ?>" data-name="<?php echo $taxonomy; ?>" data-value="0">
+                                <?php _e('All', ET_DOMAIN); ?>
+                            </a>
+                        </div>
+                    </li>
+                    <?php
+                }
+                foreach($terms as $term) {
+                    // Get term link
+                    if(is_search()) {
+                        $term_link = get_site_url() . "?s=$search_item&$taxonomy=$term->term_id";
+                    } else {
+                        $term_link = get_term_link($term);
+                    }
+
+                    $current_term = get_term($current);
+                    ?>
+                    <li class="<?php echo (!is_wp_error($current_term) && $current_term->parent == $term->term_id) ? 'open active' : '';  ?>">
+                        <?php
+                        // Get child term
+                        $child_terms = get_terms($taxonomy, array('parent' => $term->term_id));
+                        ?>
+                        <div class="link">
+                            <a href="<?php echo $term_link; ?>" data-name="<?php echo $taxonomy; ?>" data-value="<?php echo $term->term_id ?>" class="<?php echo ($current == $term->term_id) ? 'active' : ''; ?>"><?php echo $term->name; ?>
+
+
+                            </a>
+                            <?php
+                            if(!empty($child_terms)) :
+                                echo '<i class="fa fa-chevron-right"></i>';
+                            endif;
+                            ?>
+                        </div>
+
+                        <?php if(!empty($child_terms)) { ?>
+                            <ul class="submenu">
+                                <?php
+                                foreach($child_terms as $child) {
+                                    // Get term link
+                                    if(is_search()) {
+                                        $term_link = get_site_url() . "?s=$search_item&$taxonomy=$child->term_id";
+                                    } else {
+                                        $term_link = get_term_link($child);
+                                    }
+
+                                    ?>
+                                    <li><a href="<?php echo $term_link; ?>" data-name="<?php echo $taxonomy; ?>" data-value="<?php echo $child->term_id; ?>" class="<?php echo ($current == $child->term_id) ? 'active' : ''; ?>"><?php echo $child->name; ?></a></li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        <?php } ?>
+                    </li>
+                    <?php
+                }
+                ?>
+            </ul>
+        </div>
+        <?php
+    }
+}

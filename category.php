@@ -26,7 +26,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-sm-12 col-xs-12">
 				<div class="menu-left">
 					<p class="title-menu"><?php _e('Categories', ET_DOMAIN); ?></p>
-					<?php //mJobShowFilterCategories('category', array('parent' => 0)); ?>
+					<?php JBFilterCategories('category', array('parent' => 0)); ?>
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 posts-container" id="posts_control">
