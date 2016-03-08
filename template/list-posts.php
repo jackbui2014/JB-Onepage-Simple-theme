@@ -5,7 +5,7 @@ $postdata    = array();
 if(have_posts()){
     ?>
     <!-- blog list -->
-    <div class="post-list" id="post-list">
+    <ul class="post-list" id="post-list">
         <?php
         while(have_posts()) { the_post();
             $convert    = $post_object->convert($post);
@@ -17,7 +17,7 @@ if(have_posts()){
          */
         echo '<script type="data/json" class="postdata" >'.json_encode($postdata).'</script>';
         ?>
-    </div>
+    </ul>
     <!--// blog list  -->
     <!-- pagination -->
     <?php

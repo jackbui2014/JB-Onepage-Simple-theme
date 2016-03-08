@@ -69,6 +69,7 @@ class JB_Theme extends JB_Base{
         wp_enqueue_style('font-awesome-css', TEMPLATEURL. '/css/font-awesome.css', array(), THEME_VERSION );
         wp_enqueue_style('carousel', TEMPLATEURL. '/css/assets/owl.carousel.css', array(), THEME_VERSION );
         wp_enqueue_style('main-style-css', TEMPLATEURL. '/css/style.css', array(), THEME_VERSION );
+		wp_enqueue_style('custom-style-css', TEMPLATEURL. '/css/custom.css', array(), THEME_VERSION );
 	}
 	public function jb_load_script($scripts){	
 		$scripts->add('main-js', TEMPLATEURL. '/js/main.js', array('jquery', 'underscore', 'backbone', 'jb-lib-js'), THEME_VERSION, true);

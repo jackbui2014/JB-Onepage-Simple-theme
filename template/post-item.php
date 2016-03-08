@@ -7,7 +7,7 @@
  */
 global $wp_query, $jb_post_factory, $post;
 $post_object    = $jb_post_factory->get('post');
-$current        = $post_object->current_post;
+$current        = $post_object->convert($post);
 ?>
 <li class="post-item clearfix">
     <div class="image-avatar col-lg-4 col-md-4 col-sm-5 col-xs-12">
@@ -16,9 +16,8 @@ $current        = $post_object->current_post;
         </a>
     </div>
     <div class="info-items col-lg-8 col-md-8 col-sm-7 col-xs-12">
-        <p class="author-post"><?php echo sprintf(__('Written by %s', ET_DOMAIN), $current->author_name); ?></p>
-        <p class="date-post"><?php echo $current->post_date ;?></p>
-        <h2><a href="<?php echo $current->permalink ?>"><?php echo $current->post_title; ?></a></h2>
+        <h2 class="post-title"><a href="<?php echo $current->permalink ?>"><?php echo $current->post_title; ?></a></h2>
+        <p class="author-post"><?php echo sprintf(__('Written by %s', ET_DOMAIN), $current->post_author); ?></p>
         <div class="group-function">
             <?php echo $current->post_excerpt; ?>
             <a href="<?php echo $current->permalink; ?>" class="more"><?php _e('Read more', ET_DOMAIN); ?></a>

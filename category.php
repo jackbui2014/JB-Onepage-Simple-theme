@@ -16,7 +16,7 @@
 	get_header();
 ?>
 
-<div id="content">
+<div id="content" class="blog-category">
 	<div class="container">
 		<!-- block control  -->
 		<div class="row title-top-pages">
