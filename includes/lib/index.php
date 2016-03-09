@@ -18,6 +18,7 @@ $classMap = array(
 	'JB_LoadStyles'           => TEMPLATEPATH . '/includes/lib/class-load-styles.php',
 	'JB_Validator'			  => TEMPLATEPATH . '/includes/lib/class-validator.php',
 	'JB_Posts'                => TEMPLATEPATH . '/includes/lib/class-post.php',
+    'JB_PostAction'           => TEMPLATEPATH . '/includes/lib/class-post.php',
 	'JB_Options'			  => TEMPLATEPATH . '/includes/lib/class-option.php',
 	'JB_Color'				  => TEMPLATEPATH . '/includes/lib/customizer/class-jb-color.php',
 	'JB_Menu'				  => TEMPLATEPATH . '/includes/lib/class-jb-menu.php',

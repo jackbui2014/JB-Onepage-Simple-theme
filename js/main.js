@@ -36,18 +36,24 @@
             childView: PostItem,
             itemClass: 'post-item'
         });
-        if ( $('.post_container #post_data').length > 0) {
-            var postdata = JSON.parse($('.post_container #post_data').html()),
-            collection = new JB.Collections.Posts(postdata);
-        }else {
-            var collection = new JB.Collections.Posts();
-        }               
-        list = new ListPost({
-                childView: PostItem,
-                collection: collection,
-                el: $('.list_post')
-            });
-        list.render();
+		if( $('#posts_control').length > 0) {
+			if ($('.post_container #post_data').length > 0) {
+				var postdata = JSON.parse($('.post_data').html()),
+					collection = new JB.Collections.Posts(postdata);
+			} else {
+				var collection = new JB.Collections.Posts();
+			}
+			list = new ListPost({
+				childView: PostItem,
+				collection: collection,
+				el: $('.list_post')
+			});
+			new Views.BlockControl({
+				collection: collection,
+				el: $('#posts_control')
+			});
+		}
+       // list.render();
 		var front = Backbone.View.extend({
 			el: 'body',
 			model: [],

@@ -5,7 +5,7 @@ $postdata    = array();
 if(have_posts()){
     ?>
     <!-- blog list -->
-    <ul class="post-list" id="post-list">
+    <ul class="post-list list_post" id="post-list">
         <?php
         while(have_posts()) { the_post();
             $convert    = $post_object->convert($post);
@@ -22,7 +22,7 @@ if(have_posts()){
     <!-- pagination -->
     <?php
     echo '<div class="paginations-wrapper">';
-
+    jb_pagination($wp_query, get_query_var('paged'));
     echo '</div>';
 } else {
     _e( 'No posts yet!', ET_DOMAIN );

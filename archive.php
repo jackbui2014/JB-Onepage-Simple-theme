@@ -10,14 +10,14 @@
  * @link http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
- * @subpackage FreelanceEngine
- * @since FreelanceEngine 1.0
+ * @subpackage JB Themes
+ * @since 1.0
  */
 get_header();
 ?>
 
-	<div id="content">
-		<div class="container dashboard withdraw">
+	<div id="content" class="blog-category">
+		<div class="container">
 			<!-- block control  -->
 			<div class="row title-top-pages">
 				<p class="block-title"><?php single_cat_title( '', true ); ?></p>
@@ -26,7 +26,7 @@ get_header();
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-sm-12 col-xs-12">
 					<div class="menu-left">
 						<p class="title-menu"><?php _e('Categories', ET_DOMAIN); ?></p>
-						<?php mJobShowFilterCategories('category', array('parent' => 0)); ?>
+						<?php JBFilterCategories('category', array('parent' => 0)); ?>
 					</div>
 				</div>
 				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 posts-container" id="posts_control">

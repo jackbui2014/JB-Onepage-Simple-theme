@@ -28,7 +28,7 @@ if( have_posts() ): ?>
       <?php endwhile; ?>
       </div>
       <div class="pager">
-        <a href="#"><?php _e('View all posts >> ', JB_DOMAIN); ?></a>
+        <a href="<?php echo jb_get_page_link('list-blogs') ?>"><?php _e('View all posts >> ', JB_DOMAIN); ?></a>
 <!--        <ul>-->
 <!--          <li><a>prev</a></li>-->
 <!--          <li class="active"><a>1</a></li>-->

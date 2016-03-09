@@ -89,7 +89,6 @@ class JB_Posts extends JB_Base {
     }
 	public function init() {
 		$this->add_ajax( 'jb-sync-post', 'sync_post' );
-		$this->add_ajax( 'jb-fetch-posts', 'fetch_posts' );		
 	}
     /**
      * Generate the post label for register custom posttype.
@@ -237,14 +236,72 @@ class JB_Posts extends JB_Base {
         wp_send_json($response);
 	}
 
-	/**
-	 * ajax callback fetch post
-	 *
-	 * @author  Jack Bui
-	 * @version 1.0
-	 */
-	public function fetch_posts() {
-	}
+    /**
+     * fetch postdata from database, use function convert
+     * @param array $args query options, see more WP_Query args
+     * @return array of objects post
+     * @author Dakachi
+     * @since 1.0
+     */
+    public function fetch($args) {
+
+        $args['post_type'] = $this->post_type;
+        if (isset($args['radius']) && $args['radius']) {
+            $query = $this->nearbyPost($args);
+        } else {
+            $query = new WP_Query($args);
+        }
+        $data = array();
+
+        $thumb = isset($args['thumbnail']) ? $args['thumbnail'] : 'thumbnail';
+        // loop post
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                global $post;
+
+                // convert post data
+                $data[] = $this->convert($post, $thumb);
+            }
+        }
+        if (!empty($data)) {
+
+            /**
+             * return array of data if success
+             */
+            return array(
+                'posts' => $data,
+
+                // post data
+                'post_count' => $query->post_count,
+
+                // total post count
+                'max_num_pages' => $query->max_num_pages,
+
+                // total pages
+                'query' => $query
+
+                // wp_query object
+
+
+            );
+        } else {
+            return false;
+        }
+    }
+    /**
+     * filter query args
+     *
+     * @param array $query_args
+     * @return void
+     * @since 1.0
+     * @package JBTHEME
+     * @category void
+     * @author JACK BUI
+     */
+    function filter_query_args($query_args) {
+        return $query_args;
+    }
 	/**
 	 * Insert post 
 	 *

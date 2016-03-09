@@ -136,3 +136,62 @@ if(!function_exists('JBFilterCategories')) {
         <?php
     }
 }
+if(!function_exists('jb_pagination')):
+    /**
+     * render posts list pagination link
+     * @param $wp_query The WP_Query object for post list
+     * @param $current if use default query, you can skip it
+     * @param string $type
+     * @param string $text
+     * @author JACK BUI
+     */
+    function jb_pagination( $query, $current = '', $type = 'page', $text = '') {
+        $query_var  =   array();
+        /**
+         * posttype args
+         */
+        $query_var['post_type']     =   $query->query_vars['post_type'] != ''  ? $query->query_vars['post_type'] : 'post' ;
+        $query_var['post_status']   =   isset( $query->query_vars['post_status'] ) ? $query->query_vars['post_status'] : 'publish';
+        $query_var['orderby']       =   isset( $query->query_vars['orderby'] ) ? $query->query_vars['orderby'] : 'date';
+        // taxonomy args
+        $query_var['showposts']   =   isset( $query->query_vars['showposts'] ) ? $query->query_vars['showposts'] : '';
+        /**
+         * order
+         */
+        $query_var['order']         =   $query->query_vars['order'];
+
+        if(!empty($query->query_vars['meta_key']))
+            $query_var['meta_key']      =   isset( $query->query_vars['meta_key'] ) ? $query->query_vars['meta_key'] : 'rating_score';
+
+        $query_var  =   array_merge($query_var, (array)$query->query );
+        $query_var['paginate'] = $type;
+        echo '<script type="application/json" class="jb_query">'. json_encode($query_var). '</script>';
+
+        if( ($query->max_num_pages <= 1  ) || !$type ) return ;
+        $style = '';
+        echo '<div class="paginations" '.$style.'>';
+        if($type === 'page') {
+            $big = 999999999; // need an unlikely integer
+            echo paginate_links( array(
+                'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+                'format'    => '?paged=%#%',
+                'current'   => max( 1, ($current) ? $current : get_query_var('paged') ),
+                'total'     => $query->max_num_pages,
+                'next_text' => '<i class="fa fa-angle-double-right"></i>',
+                'prev_text' => '<i class="fa fa-angle-double-left"></i>',
+            ) );
+        }else {
+            if($query->max_num_pages == $current) {
+                return false;
+            }
+
+            if($text == '') {
+                $text = __("Load more", ET_DOMAIN);
+            }
+            echo '<a id="'.$query_var['post_type'].'-inview" class="inview load-more-post" >'. $text .'</a>';
+        }
+
+        echo '</div>';
+
+    }
+endif;

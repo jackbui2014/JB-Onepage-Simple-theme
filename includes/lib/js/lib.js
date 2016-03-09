@@ -374,5 +374,424 @@ _.templateSettings = {
     			view.currentEl.removeClass('jb_on_edit');											
     		}
     	});
+        Views.BlockControl = Backbone.Marionette.View.extend({
+            initialize: function(options) {
+                _.bindAll(this, 'addPost', 'onModelChange');
+                var view = this;
+                this.page = 1;
+                this.options = _.extend(this, options);
+                this.blockUi = new Views.BlockUi();
+                if (this.$('.jb_query').length > 0) {
+                    this.query = JSON.parse(this.$('.jb_query').html());
+                } else {
+                    this.$('.paginations').remove();
+                }
+                // bind event add to collection
+                this.collection.on('add', this.addPost, this);
+                // bind event when model change
+                JB.pubsub.on('ae:model:statuschange', this.onModelChange, this);
+                // init grid view
+                this.grid = (options.grid) ? options.grid : 'grid';
+                this.searchDebounce = _.debounce(this.onSearchDebounce, 500);
+                if (this.$('.skill-control').length > 0 && this.$('.skill_filter').val() != '') {
+                    // init collection skill
+                    this.post = new Models.Post();
+                    this.skill_view = new Views.Skill_Control({
+                        collection: this.skills,
+                        model: this.post,
+                        el: view.$('.skill-control')
+                    });
+                    // bind event collection skill change, add, remove filter
+                    this.skills.on('add', this.filterSkill, this);
+                    this.skills.on('remove', this.filterSkill, this);
+                }
+                view.triggerMethod("after:init");
+            },
+            filterSkill: function() {
+                var skill = this.skills.toJSON();
+                var view = this;
+                var input_skill = $('.skill');
+                //console.log(skill);
+                skill = _.map(skill, function(element) {
+                    return element['name'];
+                });
+                view.query['skill'] = skill;
+                view.page = 1;
+                view.fetch(input_skill);
+            },
+            events: {
+                // ajax load more
+                'click a.load-more-post': 'loadMore',
+                // select a page in pagination list
+                'click .paginations a.page-numbers': 'selectPage',
+                // previous page
+                'click .paginations a.prev': 'prev',
+                // next page
+                'click .paginations a.next': 'next',
+                // filter
+                'change select ': 'selectFilter',
+                // order post list by date/rating
+                'click a.orderby': 'order',
+                // filter post_status
+                'click a.click-type' : 'clickType',
+                // switch view between grid and list
+                'click .icon-view': 'changeView',
+                // search post
+                'keyup input.search': 'search',
+                // Slider range drag
+                'slideStop .slider-ranger': 'filterRange',
+                'change .slider-ranger': 'filterRange',
+                // Change date filer
+                'changeDate .datepicker': 'filterDate',
+            },
+            /**
+             * handle on change search field
+             */
+            search: function(event) {
+                var target = $(event.currentTarget);
+                this.searchDebounce(target);
+            },
+            /**
+             * handle ajax search
+             */
+            onSearchDebounce: function($target) {
+                var name = $target.attr('name'),
+                    view = this;
+                if (name !== 'undefined') {
+                    // console.log(view.query);
+                    view.query[name] = $target.val();
+                    view.page = 1;
+                    // fetch page
+                    view.fetch($target);
+                }
+            },
+            /**
+             * catch event add post to collection and add current page to model
+             */
+            addPost: function(post, col, options) {
+                post.set('page', this.page);
+            },
+            /**
+             * load more places
+             */
+            loadMore: function(e) {
+                e.preventDefault();
+                var view = this,
+                    $target = $(e.currentTarget);
+                view.page++;
+                // collection fetch
+                view.collection.fetch({
+                    remove: false,
+                    data: {
+                        query: view.query,
+                        page: view.page,
+                        paged: view.page,
+                        action: 'jb-fetch-posts',
+                        paginate: true,
+                        thumbnail: view.thumbnail,
+                        text: $target.text()
+                    },
+                    // get the thumbnail size of post and send to server
+                    thumbnail: view.thumbnail,
+                    beforeSend: function() {
+                        view.blockUi.block($target);
+                        view.triggerMethod("before:loadMore");
+                    },
+                    success: function(result, res, xhr) {
+                        view.blockUi.unblock();
+                        view.$('.paginations-wrapper').html(res.paginate);
+                        AE.pubsub.trigger('aeBlockControl:after:loadMore', result, res);
+                        if (res.max_num_pages == view.page || !res.success) {
+                            $target.parents('.paginations').hide();
+                            $target.remove();
+                        }
+                        view.switchTo();
+                        view.triggerMethod("after:loadMore", result, res);
+                    }
+                });
+            },
+            selectFilter: function(event) {
+                var $target = $(event.currentTarget),
+                    name = $target.attr('name'),
+                    view = this;
+                if (name !== 'undefined') {
+                    view.query[name] = $target.val();
+                    view.page = 1;
+                    // fetch page
+                    view.fetch($target);
+                }
+            },
+            clickType : function(event){
+                event.preventDefault();
+                var $target = $(event.currentTarget),
+                    name = $target.attr('data-name'),
+                    type = $target.attr('data-type'),
+                    view = this;
+                if ($target.hasClass('active')) return;
+
+                if(name !== 'undefined'){
+                    view.$el.find('.click-type').parent().removeClass('active');
+                    $target.parent().addClass('active');
+                    /**
+                     * set post_status arg to query
+                     */
+                    view.query[name] = type;
+                    view.page = 1;
+                    //fetch post
+                    view.fetch($target);
+                }
+            },
+            order: function(event) {
+                event.preventDefault();
+                var $target = $(event.currentTarget),
+                    name = $target.attr('data-sort'),
+                    view = this;
+                if (name !== 'undefined') {
+                    view.$('.orderby').removeClass('active');
+                    $target.addClass('active');
+                    /**
+                     * set orderby arg to query
+                     */
+                    view.query['orderby'] = name;
+                    view.page = 1;
+                    // fetch post
+                    view.fetch($target);
+                }
+            },
+            /**
+             * toggle view between grid and list
+             */
+            changeView: function(event) {
+                var $target = $(event.currentTarget),
+                    view = this;
+                // return if target is active
+                if ($target.hasClass('active')) return;
+                // add class active to current targets
+                this.$('.icon-view').removeClass('active');
+                $target.addClass('active');
+                // update view grid
+                if ($target.hasClass('grid-style')) {
+                    view.grid = 'grid';
+                } else {
+                    view.grid = 'list';
+                }
+                // switch view
+                view.switchTo();
+                view.triggerMethod("after:changeView", $target );
+            },
+            /**
+             * filer range for budget
+             */
+            filterRange: function(event) {
+                event.preventDefault();
+                var view = this,
+                    $target = $(event.currentTarget),
+                    name = $target.attr('name');
+                view.query[name] = $target.val();
+                view.page = 1;
+                view.fetch($target);
+            },
+            /**
+             *
+             */
+            filterDate: function(event) {
+                event.preventDefault();
+                var view = this,
+                    $target = $(event.currentTarget),
+                    name = $target.attr('name');
+                view.query[name] = $target.val();
+                $(event.currentTarget).datepicker('hide');
+                view.fetch($target);
+            },
+            /**
+             * select a page in paginate
+             */
+            selectPage: function(event) {
+                event.preventDefault();
+                var $target = $(event.currentTarget),
+                    page = parseInt($target.text().replace(/,/g, '')),
+                    view = this;
+                if ($target.hasClass('current') || $target.hasClass('next') || $target.hasClass('prev')) return;
+                view.page = page;
+                // fetch posts
+                view.fetch($target);
+                //scroll to block control id
+                $('html, body').animate({
+                    scrollTop: view.$el.offset().top - 180
+                }, 800);
+            },
+            // prev page
+            prev: function(event) {
+                event.preventDefault();
+                var $target = $(event.currentTarget),
+                    view = this;
+                // descrease page
+                view.page--;
+                // fetch posts
+                view.fetch($target);
+            },
+            // next page
+            next: function(event) {
+                event.preventDefault();
+                var $target = $(event.currentTarget),
+                    view = this;
+                // increase page
+                view.page = view.page + 1;
+                view.fetch($target);
+            },
+            // fetch post
+            fetch: function($target) {
+                var view = this,
+                    page = view.page;
+                // displayParams = this.makeQuery(params);
+                // if(typeof this.router !== 'undefined') {
+                //     this.router.navigate('!filter/aaaaaaa');
+                //     console.log('router');
+                // }before:selectPlan
+                view.collection.fetch({
+                    wait: true,
+                    remove: true,
+                    reset: true,
+                    data: {
+                        query: view.query,
+                        page: view.page,
+                        paged: view.page,
+                        paginate: view.query.paginate,
+                        thumbnail: view.thumbnail,
+                    },
+                    beforeSend: function() {
+                        if($target.hasClass('multi-tax-item') || $target.hasClass('is-chosen')) {
+                            $blockTarget = $target.next('.chosen-container');
+                            view.blockUi.block($blockTarget);
+                        } else {
+                            view.blockUi.block($target);
+                        }
+
+                        view.triggerMethod("before:fetch");
+                    },
+                    success: function(result, res, xhr) {
+                        view.blockUi.unblock();
+                        // view.collection.reset();
+                        if (res && !res.success) {
+                            //view.$('.paginations').remove();
+                            view.$('.paginations-wrapper').hide();
+                            view.$('.paginations').remove();
+                            view.$('.found_post').html(0);
+                            view.$('.plural').addClass('hide');
+                            view.$('.singular').removeClass('hide');
+                        } else {
+                            view.$('.paginations-wrapper').show();
+                            view.$('.paginations-wrapper').html(res.paginate);
+                            $('#place-status').html(res.status);
+                            view.$('.found_post').html(res.total);
+                            if (res.total > 1) {
+                                view.$('.plural').removeClass('hide');
+                                view.$('.singular').addClass('hide');
+                            } else {
+                                view.$('.plural').addClass('hide');
+                                view.$('.singular').removeClass('hide');
+                            }
+                            view.switchTo();
+                        }
+                        view.triggerMethod("after:fetch", result, res, $target);
+                    }
+                });
+            },
+            /**
+             * on model change update collection
+             */
+            onModelChange: function(model) {
+                var post_status = model.get('post_status');
+                if (post_status === 'archive' || post_status === 'reject' || 'post_status' == 'trash') {
+                    if( typeof model.get('is_author') === 'undefined' || !model.get('is_author') ) {
+                        this.collection.remove(model);
+                    }
+                }
+            },
+            /**
+             * switch between grid and list
+             */
+            switchTo: function() {
+                if (this.$('.list-option-filter').length == 0) return;
+                var view = this;
+                if (view.grid == 'grid') {
+                    view.$('ul > li').addClass('col-md-3 col-xs-6').removeClass('col-md-12');
+                    // view.$('ul > li').addClass('col-md-4').removeClass('col-md-12');
+                    view.$('ul').removeClass('fullwidth');
+                } else {
+                    view.$('ul > li').removeClass('col-md-3 col-xs-6').addClass('col-md-12');
+                    // view.$('ul > li').removeClass('col-md-4').addClass('col-md-12');
+                    view.$('ul').addClass('fullwidth');
+                }
+            }
+        });
+        /**
+         * blockui view
+         * block an Dom Element with loading image
+         */
+        JB.Views.BlockUi = Backbone.View.extend({
+            defaults: {
+                image: jb_globals.imgURL + '/loading.gif',
+                opacity: '0.5',
+                background_position: 'center center',
+                background_color: '#ffffff'
+            },
+            isLoading: false,
+            initialize: function(options) {
+                //var defaults = _.clone(this.defaults);
+                options = _.extend(_.clone(this.defaults), options);
+                var loadingImg = options.image;
+                this.overlay = $('<div class="loading-blur loading"><div class="loading-overlay"></div><div class="loading-img"></div></div>');
+                this.overlay.find('.loading-img').css({
+                    'background-image': 'url(' + options.image + ')',
+                    'background-position': options.background_position
+                });
+                this.overlay.find('.loading-overlay').css({
+                    'opacity': options.opacity,
+                    'filter': 'alpha(opacity=' + options.opacity * 100 + ')',
+                    'background-color': options.background_color
+                });
+                this.$el.html(this.overlay);
+                this.isLoading = false;
+            },
+            render: function() {
+                this.$el.html(this.overlay);
+                return this;
+            },
+            block: function(element, caption) {
+                var $ele = $(element);
+                // if ( $ele.css('position') !== 'absolute' || $ele.css('position') !== 'relative'){
+                //         $ele.css('position', 'relative');
+                // }
+                this.overlay.css({
+                    'position': 'absolute',
+                    'z-index': 20000,
+                    'top': $ele.offset().top,
+                    'left': $ele.offset().left,
+                    'width': $ele.outerWidth(),
+                    'height': $ele.outerHeight()
+                });
+                this.isLoading = true;
+                this.render().$el.show().appendTo($('body'));
+                if(caption){
+                    this.$el.find('.loading-img' ).text(caption);
+                }
+            },
+            setMessage:function(message){
+                if(this.$el){
+                    this.$el.find('.loading-img' ).text(message);
+                }
+            },
+            unblock: function() {
+                this.$el.remove();
+                this.isLoading = false;
+            },
+            finish: function() {
+                this.$el.fadeOut(500, function() {
+                    $(this).remove();
+                });
+                this.isLoading = false;
+            }
+        });
 	});			
 })(window.JB, jQuery, window.JB.Views, Backbone);
