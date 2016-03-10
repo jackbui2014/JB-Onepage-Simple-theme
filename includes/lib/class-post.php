@@ -289,19 +289,6 @@ class JB_Posts extends JB_Base {
             return false;
         }
     }
-    /**
-     * filter query args
-     *
-     * @param array $query_args
-     * @return void
-     * @since 1.0
-     * @package JBTHEME
-     * @category void
-     * @author JACK BUI
-     */
-    function filter_query_args($query_args) {
-        return $query_args;
-    }
 	/**
 	 * Insert post 
 	 *

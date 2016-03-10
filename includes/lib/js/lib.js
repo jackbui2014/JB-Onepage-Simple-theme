@@ -389,7 +389,7 @@ _.templateSettings = {
                 // bind event add to collection
                 this.collection.on('add', this.addPost, this);
                 // bind event when model change
-                JB.pubsub.on('ae:model:statuschange', this.onModelChange, this);
+                JB.pubsub.on('jb:model:statuschange', this.onModelChange, this);
                 // init grid view
                 this.grid = (options.grid) ? options.grid : 'grid';
                 this.searchDebounce = _.debounce(this.onSearchDebounce, 500);

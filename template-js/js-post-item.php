@@ -12,9 +12,9 @@
 			<i class="fa fa-comments-o">200</i><i class="fa fa-eye">3000	</i>
 		</p>
 		<div class="group-function">
-			<p class="post-excerpt margin-bottom-20"><?php echo $current->post_excerpt; ?></p>
+			<p class="post-excerpt margin-bottom-20">{{= post_excerpt }}</p>
 			<a href="{{= permalink }}" class="more"><?php _e('Read more', ET_DOMAIN); ?></a>
-			<p class="total-comments">{{= comment_number }}</p>
+			<p class="total-comments"></p>
 		</div>
 	</div>
 </script>

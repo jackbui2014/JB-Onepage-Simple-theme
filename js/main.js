@@ -26,10 +26,7 @@
 		var PostItem = Views.PostItem.extend({
 			tagName: 'li',
 			className : 'post-item',
-			template: _.template($('#post_item').html()),
-			initialize: function ( options ) {
-				this.options = _.extend( this, options );							
-			}
+			template: _.template($('#post_item').html())
 		});		
 		var ListPost = Views.ListPost.extend({
             tagName: 'ul',
@@ -37,7 +34,7 @@
             itemClass: 'post-item'
         });
 		if( $('#posts_control').length > 0) {
-			if ($('.post_container #post_data').length > 0) {
+			if ($('.post_data').length > 0) {
 				var postdata = JSON.parse($('.post_data').html()),
 					collection = new JB.Collections.Posts(postdata);
 			} else {
@@ -53,7 +50,7 @@
 				el: $('#posts_control')
 			});
 		}
-       // list.render();
+       list.render();
 		var front = Backbone.View.extend({
 			el: 'body',
 			model: [],

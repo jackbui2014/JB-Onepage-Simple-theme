@@ -38,6 +38,9 @@ if( have_posts() ):
     ?>
   </div>
   <!-- Controls--><a href="#myCarousel" data-slide="prev" class="left carousel-control"><i class="fa fa-angle-left fa-5x"></i></a><a href="#myCarousel" data-slide="next" class="right carousel-control"><i class="fa fa-angle-right fa-5x"></i></a>
-</div><i class="fa fa-chevron-circle-down fa-5x"></i>
+</div>
+<a href="#services">
+<i class="fa fa-chevron-circle-down fa-5x mbr-arrow_link"></i>
+</a>
 </div>
 <?php endif;

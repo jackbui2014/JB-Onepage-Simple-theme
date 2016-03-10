@@ -30,3 +30,9 @@ body {
     background-size: cover;
     -o-background-size: cover;
 }
+.mbr-arrow_link
+{
+    -webkit-animation: floating-arrow 2s infinite ease-in-out 0s;
+    animation: floating-arrow 2s infinite ease-in-out 0s;    
+}
+@-webkit-keyframes floating-arrow{from{-webkit-transform:translateY(0);transform:translateY(0);font-size:4rem}65%{-webkit-transform:translateY(31px);transform:translateY(31px);font-size:5rem}to{-webkit-transform:translateY(0);transform:translateY(0);font-size:4rem}}@keyframes floating-arrow{from{-webkit-transform:translateY(0);transform:translateY(0);font-size:4rem}65%{-webkit-transform:translateY(31px);transform:translateY(31px);font-size:5rem}to{-webkit-transform:translateY(0);transform:translateY(0);font-size:4rem}}

@@ -18,7 +18,7 @@ $classMap = array(
 	'JB_LoadStyles'           => TEMPLATEPATH . '/includes/lib/class-load-styles.php',
 	'JB_Validator'			  => TEMPLATEPATH . '/includes/lib/class-validator.php',
 	'JB_Posts'                => TEMPLATEPATH . '/includes/lib/class-post.php',
-    'JB_PostAction'           => TEMPLATEPATH . '/includes/lib/class-post.php',
+    'JB_PostAction'           => TEMPLATEPATH . '/includes/lib/class-post-action.php',
 	'JB_Options'			  => TEMPLATEPATH . '/includes/lib/class-option.php',
 	'JB_Color'				  => TEMPLATEPATH . '/includes/lib/customizer/class-jb-color.php',
 	'JB_Menu'				  => TEMPLATEPATH . '/includes/lib/class-jb-menu.php',
@@ -34,4 +34,6 @@ $loader = new MapClassLoader( $classMap );
 $loader->register();
 new JB_Lib();
 $jb_uploader = JB_Uploader::get_instance();
-$jb_uploader->init();	
+$jb_uploader->init();
+$job_postAction = JB_PostAction::getInstance();
+$job_postAction->init();
