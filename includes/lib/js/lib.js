@@ -183,7 +183,7 @@ _.templateSettings = {
         /**
          * view of posts list
          */
-        Views.ListPost = Backbone.Marionette.CollectionView.extend({       
+        Views.ListPost = Backbone.Marionette.CollectionView.extend({
             constructor: function(options) {
                 var view = this;
                 Marionette.CollectionView.prototype.constructor.apply(this, arguments);
@@ -201,7 +201,7 @@ _.templateSettings = {
                         view.triggerMethod("after:item:added", view);
                     });
                 }
-            }
+            },
         });
     	/**
     	 * Uploader view 
@@ -500,7 +500,7 @@ _.templateSettings = {
                     success: function(result, res, xhr) {
                         view.blockUi.unblock();
                         view.$('.paginations-wrapper').html(res.paginate);
-                        AE.pubsub.trigger('aeBlockControl:after:loadMore', result, res);
+                        JB.pubsub.trigger('jbBlockControl:after:loadMore', result, res);
                         if (res.max_num_pages == view.page || !res.success) {
                             $target.parents('.paginations').hide();
                             $target.remove();

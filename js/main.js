@@ -34,20 +34,23 @@
             itemClass: 'post-item'
         });
 		if( $('#posts_control').length > 0) {
-			if ($('.post_data').length > 0) {
-				var postdata = JSON.parse($('.post_data').html()),
+			if ($('.postdata').length > 0) {
+				var postdata = JSON.parse($('.postdata').html()),
 					collection = new JB.Collections.Posts(postdata);
 			} else {
 				var collection = new JB.Collections.Posts();
 			}
-			new ListPost({
+			var listPost = new ListPost({
 				childView: PostItem,
 				collection: collection,
 				el: $('#posts_control').find('.list_post')
 			});
 			new Views.BlockControl({
 				collection: collection,
-				el: $('#posts_control')
+				el: $('#posts_control'),
+				onAfterFetch: function(result, res, $target){
+					listPost.render();
+				}
 			});
 		}
         //list.render();
