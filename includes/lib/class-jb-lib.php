@@ -77,7 +77,7 @@ class JB_Lib extends JB_Base
             'backbone',
             'underscore',
         ) , true);            
-		$this->add_script('jb-lib-js', TEMPLATEURL. '/includes/lib/js/lib.js', array('jquery', 'underscore', 'backbone', 'marionette'), THEME_VERSION, true);	
+		$this->add_script('jb-lib-js', TEMPLATEURL. '/includes/lib/js/lib.js', array('jquery', 'underscore', 'backbone', 'marionette'), THEME_VERSION, true);
 		$vars = array(
             'ajaxURL' => admin_url('admin-ajax.php'),
             'confirm_message' => __("Are you sure to delete this?", JB_DOMAIN),

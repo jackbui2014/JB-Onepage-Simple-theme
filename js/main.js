@@ -40,17 +40,17 @@
 			} else {
 				var collection = new JB.Collections.Posts();
 			}
-			list = new ListPost({
+			new ListPost({
 				childView: PostItem,
 				collection: collection,
-				el: $('.list_post')
+				el: $('#posts_control').find('.list_post')
 			});
 			new Views.BlockControl({
 				collection: collection,
 				el: $('#posts_control')
 			});
 		}
-       list.render();
+        //list.render();
 		var front = Backbone.View.extend({
 			el: 'body',
 			model: [],
